@@ -31,11 +31,15 @@ DEBUG = os.getenv('DEBUG', 'False') == 'True'
 
 ALLOWED_HOSTS = os.getenv('ALLOWED_HOSTS', '').split(',')
 if not DEBUG:
-    ALLOWED_HOSTS.extend(['.onrender.com', 'localhost', '127.0.0.1'])
+    ALLOWED_HOSTS.extend(['.onrender.com', 'volexai.onrender.com', 'localhost', '127.0.0.1'])
+
+# Site URL for redirects (Stripe, etc.)
+SITE_URL = os.getenv('SITE_URL', 'https://volexai.onrender.com')
 
 # CSRF Trusted Origins for production
 CSRF_TRUSTED_ORIGINS = [
     'https://*.onrender.com',
+    'https://volexai.onrender.com',
     'http://localhost:8000',
     'http://127.0.0.1:8000',
 ]
@@ -170,6 +174,7 @@ GOOGLE_CLIENT_ID = os.getenv('GOOGLE_CLIENT_ID')
 GOOGLE_CLIENT_SECRET = os.getenv('GOOGLE_CLIENT_SECRET')
 GOOGLE_REDIRECT_URI = os.getenv('GOOGLE_REDIRECT_URI')
 GOOGLE_OAUTH_TOKEN_URL = os.getenv('GOOGLE_OAUTH_TOKEN_URL', 'https://oauth2.googleapis.com/token')
+GOOGLE_USER_INFO_URL = os.getenv('GOOGLE_USER_INFO_URL', 'https://www.googleapis.com/oauth2/v2/userinfo')
 
 # LLM Provider API Keys
 OPENAI_API_KEY = os.getenv('OPENAI_API_KEY')

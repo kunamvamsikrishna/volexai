@@ -48,8 +48,8 @@ class PaymentSession(APIView):
                         "user_id": request.user.id,
                     },
 
-                        success_url="http://localhost:8000/payment/success",
-                        cancel_url="http://localhost:8000/payment/cancel",
+                        success_url=settings.SITE_URL + "/payment/success",
+                        cancel_url=settings.SITE_URL + "/payment/cancel",
                      )
 
                 # save stripe session id
