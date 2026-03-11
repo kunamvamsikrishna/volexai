@@ -4,6 +4,7 @@ from chat.models import ChatSession, Message, Request
 from chat.pagination import ChatMessageCursorPagination
 from chat.seralizers import ChatsSerializer, MessageSerializer, RequestSerializer
 from rest_framework.permissions import IsAuthenticated
+from rest_framework.exceptions import PermissionDenied
 
 
 class ChatView(generics.ListAPIView):
@@ -18,8 +19,11 @@ class ChatMessagesView(generics.ListAPIView):
     permission_classes = [IsAuthenticated]
     pagination_class = ChatMessageCursorPagination
     def get_queryset(self):
-        return Message.objects.filter(user=self.request.user, chat_session_id=self.kwargs['chat_session_id']).order_by('-created_at')
-    
+         chat_session_id = self.kwargs.get("chat_session_id")
+         chatsession = ChatSession.objects.filter(id=chat_session_id).first()
+         if chatsession.user!= self.request.user:
+             raise PermissionDenied("You do not have access to this chat")
+         return Message.objects.filter(chat_session_id=chat_session_id).order_by("-created_at")
 
 class RequestsView(generics.ListAPIView):
     serializer_class = RequestSerializer

@@ -4,6 +4,7 @@ from django.conf import settings
 class GeminiService:
     def get_response(self, query, model):
         GEMINI_API_KEY = settings.GEMINI_API_KEY
+        print(GEMINI_API_KEY,"<-----------------")
         client = genai.Client(api_key=GEMINI_API_KEY)
         try:
             response = client.models.generate_content(

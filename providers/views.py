@@ -12,12 +12,12 @@ from django.db import transaction
 class LLmCall(APIView):
     authentication_classes = [APIkeyAuthentication]
     def post(self,request):
-        
         query = request.data.get('query')
         model = request.data.get('model')
         provider = request.data.get('provider')
         session_id = request.data.get('session_id')
         request_type = request.data.get('request_type',"apicall")
+        print("Request data:", request.data)  # Debugging line to check incoming data
 
         if not query:
             return Response({"message": "Query is required"}, status=400)
@@ -44,6 +44,7 @@ class LLmCall(APIView):
 
         try:
             adapter =get_adapter(provider)
+            print(adapter,"<-----------------")
             store_request = Request.objects.create(
                     user=request.user,
                     model=model_obj,   
